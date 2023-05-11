@@ -3,7 +3,7 @@ Collection of JS utils, like Json IO.
 
 ## JSON-IO
 Set up JSON file upload/download for data import/export.
-Simply run "_Configure_Json_IO" function.
+Simply run "_Configure_Json_IO({ ... })" function.
 
 | Parameters      | Description   |
 | --------------- |:--------------|
