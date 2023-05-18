@@ -1,0 +1,55 @@
+.node-wrapper {
+    background: #e6d220;
+    box-shadow: 1px 1px 5px 0px #121212;
+
+    min-height: 3rem;
+    min-width: 7rem;
+
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.node-selected {
+    box-shadow:
+    0 0 0 0.1rem white,
+    0rem 0rem 0.5rem 0.5rem black;
+}
+
+.title {
+    background: #a62424;
+    border-radius: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    cursor : default;
+}
+
+.node-content {
+    margin-top: 0.2rem;
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.node-sockets-adapter {
+    flex-grow: 1;
+    margin: 0;
+    width: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.node-socket-inputs {
+    align-items: flex-start;
+}
+
+.node-socket-outputs {
+    align-items: flex-end;
+}

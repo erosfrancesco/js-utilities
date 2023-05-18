@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Blueprint Editor</title>
+
+        <style>
+            body {
+                background-color: #333;
+                color: white;
+                height: 97vh;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .flexible {
+                display: flex; 
+                align-items: center;
+                justify-content: space-between;
+                margin: 0;
+            }
+
+            .file_utils {
+                margin: 1rem;
+                align-items: center;    
+            }
+
+            .file_utils_row {
+                display: flex;
+                align-items: center;  
+            }
+
+            .file_import_label {
+                margin: 0.5rem;
+                font-weight: bold;
+            }
+
+            #Editor {
+                overflow: hidden;
+                background-color: #222;
+                margin: 0;
+                flex-grow: 1;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="flexible">
+            <h1>Blueprint Editor</h1>
+
+            <div class="file_utils">
+                <div class="file_utils_row">
+                    <span class="file_import_label">Import File</span>
+                    <input type="file" id="file_upload" accept=".json">
+                </div>
+                <div class="file_utils_row">
+                    <span class="file_import_label">Export File</span>
+                    <input type="text" id="file_naming">
+                    <button id="file_export">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="Editor"></div>
+        
+        <script src="./json-io.js"></script>
+        <script src="./init.js"></script>
+
+        <script src="./ui/draggable.js"></script>
+        
+        <script src="./ui/socket/lineAdapter.js"></script>
+        <link href="./ui/socket/socket.css" rel="stylesheet" type="text/css">
+        <script src="./ui/socket/socket.js"></script>
+
+        <script src="./ui/node/draggableAdapter.js"></script>
+        <script src="./ui/node/selectableAdapter.js"></script>
+        <script src="./ui/node/socketAdapter.js"></script>
+        <link href="./ui/node/node.css" rel="stylesheet" type="text/css">
+        <script src="./ui/node/node.js"></script>
+
+        <script src="./ui/line/line.js"></script>
+
+        <script src="./ui/interface.js"></script>
+
+        <script>
+            App_Global.start();
+            const node1 = createNodeElementFromObject({
+                inputs: {
+                    in1: { help: 'test input 1', type: 'string' },
+                    in2: { help: 'test input 2' }
+                },
+                outputs: {
+                    out: { help: 'test output 1' }
+                }
+            });
+
+            const node2 = createNodeElementFromObject({
+                inputs: {
+                    in1: { help: 'test input 1', type: 'string' }
+                },
+                outputs: {
+                    out: { help: 'test output 1' }
+                }
+            });
+
+            node2.style.left = 'calc(50% + 20rem)';
+
+        </script>
+    </body>
+
+</html>
