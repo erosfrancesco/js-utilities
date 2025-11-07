@@ -1,4 +1,4 @@
-const PIXEL_TO_TIME_RATIO = 1000 / 16 / 2; // 1000 ms = 16 px
+const PIXEL_TO_TIME_RATIO = 1000 / 16 / 4; // 1000 ms = 16 * 4 px
 
 
 class NoteTrail {

@@ -22,10 +22,22 @@ class PianoRoll {
         this.trails = notes.map(note => {
             const noteTrail = new NoteTrail(note);
             el.appendChild(noteTrail.el);
-            noteTrail.el.style.display = (note >= TrailToShowFrom && note < TrailToShowTo) ? 'block' : 'none';
+            // noteTrail.el.style.display = (note >= this.rangeSection.from && note < this.rangeSection.to) ? 'block' : 'none';
 
             return noteTrail;
         });
+
+        this.rangeSection = new PianoRollRangeSection(TrailToShowFrom, TrailToShowTo, () => this.updateVisibleRange());
+        const rangeSectionLayout = document.createElement('div');
+        rangeSectionLayout.style.display = 'flex';
+        rangeSectionLayout.style.marginBottom = '1em';
+        rangeSectionLayout.style.gap = '1em';
+        rangeSectionLayout.appendChild(this.rangeSection.fromInput);
+        rangeSectionLayout.appendChild(this.rangeSection.toInput);
+        el.prepend(rangeSectionLayout);
+        rangeSectionLayout.prepend(document.createTextNode('Show Notes '));
+
+        this.updateVisibleRange();
     }
 
     loadFromJSON(data) {
@@ -37,6 +49,13 @@ class PianoRoll {
             return noteEv;
         });
     }
+
+    updateVisibleRange() {
+        this.trails.forEach((trail, i) => {
+            const note = i + 21;
+            trail.el.style.display = (note >= this.rangeSection.from && note < this.rangeSection.to) ? 'block' : 'none';
+        });
+    }
 }
 
 function initPianoRollInterface() {
@@ -44,3 +63,43 @@ function initPianoRollInterface() {
 };
 //
 
+class PianoRollRangeSection {
+    constructor(from = 21, to = 108, onUpdate = () => {}) {
+        this.from = from;
+        this.to = to;
+
+        this.fromInput = document.createElement('div');
+
+        const fromLabel = document.createElement('span');
+        fromLabel.innerText = 'From:';
+        this.fromInput.appendChild(fromLabel);
+
+        const fromInput = document.createElement('input');
+        fromInput.type = 'number';
+        fromInput.value = this.from;
+        fromInput.min = 21;
+        fromInput.max = 108;
+        this.fromInput.onchange = (e) => {
+            this.from = parseInt(e.target.value, 10);
+            onUpdate();
+        };
+        this.fromInput.appendChild(fromInput);
+
+        this.toInput = document.createElement('div');
+
+        const toLabel = document.createElement('span');
+        toLabel.innerText = 'To:';
+        this.toInput.appendChild(toLabel);
+
+        const toInput = document.createElement('input');
+        toInput.type = 'number';
+        toInput.value = this.to;
+        toInput.min = 21;
+        toInput.max = 108;
+        toInput.onchange = (e) => {
+            this.to = parseInt(e.target.value, 10);
+            onUpdate();
+        };
+        this.toInput.appendChild(toInput);
+    }
+}
