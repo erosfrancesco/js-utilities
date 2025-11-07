@@ -5,9 +5,19 @@ function initMidiInterface() {
     el.style.padding = '1em';
     el.style.minHeight = '4em';
     el.style.overflowY = 'auto';
+
+    const connect = document.createElement('button');
+    connect.innerText = 'Connect MIDI Device';
+    connect.onclick = () => {
+        if (navigator.requestMIDIAccess) {
+            navigator.requestMIDIAccess({ sysex: true }).then(onMIDIDeviceSuccess, onMIDIDeviceFailure);
+        } else {
+            alert("No MIDI support in your browser.");
+        }
+    };
+    App_Global.UI.editor.appendChild(connect);
 };
 //
-
 
 // set up audio context
 const context = new (AudioContext || webkitAudioContext)(); // for ios/safari
@@ -18,9 +28,13 @@ if (navigator.requestMIDIAccess) {
 } else {
     alert("No MIDI support in your browser.");
 }
+//
 
 // midi functions
 function onMIDIDeviceSuccess(midiDevice) {
+
+    console.log('midiDevice', midiDevice);
+
     const inputs = midiDevice.inputs.values();
 
     App_Global.UI.headerBar.innerHTML += '<strong>MIDI Interface Initialized.</strong><br />';
@@ -42,17 +56,19 @@ function onMIDIDeviceFailure(e) {
 
 
 function onMIDIDeviceChange(event) {
-    // console.log(event, 'MIDI Change Event');
+    console.log(event, 'MIDI Change Event');
 }
 //
 
 
 //
 function onMIDINote(event) {
+    // console.log('MIDI Note Event', event);
     const data = event.data,
         type = data[0] & 0xf0, // channel agnostic message type. Thanks, Phil Burk.
         note = data[1],
-        velocity = data[2];
+        velocity = data[2],
+        timeStamp = event.timeStamp;
     // with pressure and tilt off
     // note off: 128, cmd: 8 
     // note on: 144, cmd: 9
@@ -61,37 +77,17 @@ function onMIDINote(event) {
     // bend: 224, cmd: 14
     switch (type) {
         case 144: // noteOn message 
-            console.log('note on', note, velocity);
-            // noteOn(note, velocity);
+            console.log('note on', note, velocity, timeStamp);
+            App_Global.currentNotes[note] = { lastOn: timeStamp, velocity };
+            onNoteOn(note);
             break;
         case 128: // noteOff message 
-            console.log('note off', note, velocity);
-            // noteOff(note, velocity);
+            console.log('note off', note, velocity, timeStamp);
+            App_Global.currentNotes[note].lastOff = timeStamp;
+            const { lastOff, lastOn } = App_Global.currentNotes[note];
+
+            const duration = lastOff - lastOn;
+            onNoteOff(note, duration);
             break;
     }
-    
-    // console.log('MIDI data', data);
 }
-
-
-/*
-function noteOn(midiNote, velocity) {
-    player(midiNote, velocity);
-}
- 
-function noteOff(midiNote, velocity) {
-    player(midiNote, velocity);
-}
- 
-function player(note, velocity) {
-    var sample = sampleMap['key' + note];
-    if (sample) {
-        if (type == (0x80 & 0xf0) || velocity == 0) { //needs to be fixed for QuNexus, which always returns 144
-            btn[sample - 1].classList.remove('active');
-            return;
-        }
-        btn[sample - 1].classList.add('active');
-        btn[sample - 1].play(velocity);
-    }
-}
-/** */

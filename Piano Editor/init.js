@@ -31,7 +31,6 @@ const App_Global = {
     },
 
     UI: {
-
         fileUpload: document.getElementById('file_upload'),
         fileExport: document.getElementById('file_export'),
         fileNaming: document.getElementById('file_naming'),
@@ -43,8 +42,13 @@ const App_Global = {
             document.title = App_Global.app_name;
             document.getElementById("app_name").innerHTML = App_Global.app_name;
             initMidiInterface();
+            initPianoRollInterface();
         },
 
         utils: {}
+    },
+
+    currentNotes: {
+        // MIDI note numbers currently being played
     }
 };
