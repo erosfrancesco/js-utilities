@@ -19,7 +19,7 @@ function initMidiInterface() {
 };
 //
 
-/*
+/** */
 // set up audio context
 const context = new (AudioContext || webkitAudioContext)(); // for ios/safari
 console.log('AudioContext', context);
@@ -34,7 +34,7 @@ if (navigator.requestMIDIAccess) {
 // midi functions
 function onMIDIDeviceSuccess(midiDevice) {
 
-    console.log('midiDevice', midiDevice);
+    // console.log('midiDevice', midiDevice);
 
     const inputs = midiDevice.inputs.values();
 

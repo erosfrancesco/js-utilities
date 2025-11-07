@@ -46,7 +46,7 @@ const App_Global = {
             initMidiInterface();
             initPianoRollInterface();
 
-            App_Global.UI.pianoRoll.loadFromJSON(initialDataForTesting);
+            // App_Global.UI.pianoRoll.loadFromJSON(initialDataForTesting);
         },
 
         utils: {}
@@ -55,7 +55,7 @@ const App_Global = {
     currentNotes: new CurrentNotesPlaying(),
     notes: [],
 };
-
+/*
 const initialDataForTesting = [
     {
         "note": 80,
@@ -170,3 +170,4 @@ const initialDataForTesting = [
         "downTimeStamp": 26034.60000000149
     }
 ]
+/** */

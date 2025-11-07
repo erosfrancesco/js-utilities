@@ -51,7 +51,6 @@ class CurrentNotesPlaying {
         this.notes[noteEvent.note] = noteEvent;
 
         const trail = App_Global.UI.pianoRoll.trails[noteEvent.note - 21];
-        console.log('trail', App_Global.UI.pianoRoll.trails);
         trail.onNotePlaying();
     }
 
