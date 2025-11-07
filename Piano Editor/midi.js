@@ -28,7 +28,7 @@ function onMIDIDeviceSuccess(midiDevice) {
     // loop through all inputs
     for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
         // listen for midi messages
-        input.value.onmidimessage = console.log;
+        input.value.onmidimessage = onMIDINote;
         App_Global.UI.headerBar.innerHTML += `<p>[Connected]: ${input.value.name}</p>`;
     }
 
@@ -47,11 +47,9 @@ function onMIDIDeviceChange(event) {
 //
 
 
-/*
-function onMIDIMessage(event) {
-    data = event.data,
-        cmd = data[0] >> 4,
-        channel = data[0] & 0xf,
+//
+function onMIDINote(event) {
+    const data = event.data,
         type = data[0] & 0xf0, // channel agnostic message type. Thanks, Phil Burk.
         note = data[1],
         velocity = data[2];
@@ -61,20 +59,22 @@ function onMIDIMessage(event) {
     // pressure / tilt on
     // pressure: 176, cmd 11: 
     // bend: 224, cmd: 14
-    console.log('MIDI data', data);
     switch (type) {
         case 144: // noteOn message 
-            noteOn(note, velocity);
+            console.log('note on', note, velocity);
+            // noteOn(note, velocity);
             break;
         case 128: // noteOff message 
-            noteOff(note, velocity);
+            console.log('note off', note, velocity);
+            // noteOff(note, velocity);
             break;
     }
- 
-    console.log(keyData, 'key data', data);
+    
+    // console.log('MIDI data', data);
 }
- 
- 
+
+
+/*
 function noteOn(midiNote, velocity) {
     player(midiNote, velocity);
 }
