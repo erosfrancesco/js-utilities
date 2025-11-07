@@ -30,7 +30,7 @@ class PianoRoll {
         App_Global.notes = data.map((noteData, i) => {
             const { note, downVelocity, downTimeStamp, upVelocity, upTimeStamp } = noteData;
             const noteEv = new NoteRaw(note, downVelocity, downTimeStamp, upTimeStamp, upVelocity);
-            this.trails[noteEv.note].addNote(noteEv, i);
+            this.trails[noteEv.note - 21].addNote(noteEv, i);
 
             return noteEv;
         });
