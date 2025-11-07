@@ -26,10 +26,6 @@ class NoteEvent extends NoteRaw {
         // bend: 224, cmd: 14
     }
 
-    get duration() {
-        return this.upTimeStamp - this.downTimeStamp;
-    }
-
     onKeyUp(event) {
         const data = event.data,
             velocity = data[2],
